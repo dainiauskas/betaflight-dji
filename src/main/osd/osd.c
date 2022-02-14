@@ -384,6 +384,9 @@ void pgResetFn_osdConfig(osdConfig_t *osdConfig)
     osdConfig->stat_show_cell_value = false;
     osdConfig->framerate_hz = OSD_FRAMERATE_DEFAULT_HZ;
     osdConfig->cms_background_type = DISPLAY_BACKGROUND_TRANSPARENT;
+
+    // Turn off replacing craft name for DJI OSD
+    osdWarnSetState(OSD_WARNING_DJI, false);
 }
 
 void pgResetFn_osdElementConfig(osdElementConfig_t *osdElementConfig)
@@ -406,6 +409,11 @@ void pgResetFn_osdElementConfig(osdElementConfig_t *osdElementConfig)
     osdElementConfig->item_pos[OSD_HORIZON_SIDEBARS]   = OSD_POS(14, 6);
     osdElementConfig->item_pos[OSD_CAMERA_FRAME]       = OSD_POS(3, 1);
     osdElementConfig->item_pos[OSD_UP_DOWN_REFERENCE]  = OSD_POS(13, 6);
+}
+
+bool osdWarnDjiEnabled(void)
+{
+    return osdWarnGetState(OSD_WARNING_DJI);
 }
 
 static void osdDrawLogo(int x, int y)
