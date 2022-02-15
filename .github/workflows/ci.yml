@@ -23,6 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Download and install toolchain
+        # if: steps.cache-toolchain.outputs.cache-hit != 'true'
+        run: make arm_sdk_install
+
       - name: Get all official build targets
         id: get-targets
         run: echo "::set-output name=targets::$(make targets-ci-print | jq -R -c 'split(" ")')"
@@ -33,10 +37,6 @@ jobs:
         with:
           path: tools/
           key: ${{ runner.os }}-${{ hashFiles('make/tools.mk') }}
-
-      - name: Download and install toolchain
-        # if: steps.cache-toolchain.outputs.cache-hit != 'true'
-        run: make arm_sdk_install
 
   build:
     name: Build
